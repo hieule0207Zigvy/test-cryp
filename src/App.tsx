@@ -1,11 +1,16 @@
-function App() {
-  console.log(import.meta.env.VITE_API_URL)
+import { ConfigProvider } from 'antd'
+import { memo } from 'react'
+import AppRouter from './router/AppRouter'
+import { globalTheme } from './styles/global.theme.antd'
 
+function App() {
   return (
     <div className='app'>
-      <p>{'hehe'}</p>
+      <ConfigProvider theme={globalTheme}>
+        <AppRouter />
+      </ConfigProvider>
     </div>
   )
 }
 
-export default App
+export default memo(App)
