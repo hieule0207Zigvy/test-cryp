@@ -1,0 +1,13 @@
+@import './variables';
+
+body {
+  font-family: $font-sans;
+  color: $primary-text-color;
+  background-color: $primary-bg-color;
+}
+
+h1 h2 h3 h4 h5 p span {
+  color: $primary-text-color;
+}
+
+
