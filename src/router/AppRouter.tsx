@@ -1,3 +1,4 @@
+import MainPage from '@/pages/main-page'
 import { lazy, memo, ReactNode, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
@@ -6,14 +7,16 @@ const Sub = lazy(() => import('@/pages/sub'))
 
 export const PRIVATE_ROUTES = {
   MAIN: '/',
-  SUB: '/sub'
+  SUB: '/sub',
+  HIEU: '/hieu'
 }
 
 type PrivateRoutesType = { path: string; element: ReactNode }[]
 
 const privateRoutes: PrivateRoutesType = [
   { path: PRIVATE_ROUTES.MAIN, element: <Dashboard /> },
-  { path: PRIVATE_ROUTES.SUB, element: <Sub /> }
+  { path: PRIVATE_ROUTES.SUB, element: <Sub /> },
+  { path: PRIVATE_ROUTES.HIEU, element: <MainPage /> }
 ]
 
 const AppRouter = () => {

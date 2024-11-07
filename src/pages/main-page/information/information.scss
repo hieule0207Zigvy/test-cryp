@@ -1,0 +1,104 @@
+@import '../../../styles/variables';
+
+.information-session {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+
+  .currency-list-session {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .tab {
+      width: 100%;
+    }
+    .tab-item {
+      font-family: $font-sans;
+      font-size: 14px;
+      color: $secondary-text-color;
+      transition: 0.3s;
+    }
+    .ant-tabs-tab.ant-tabs-tab-active {
+      span {
+        color: $primary-text-color;
+      }
+    }
+    .ant-tabs-ink-bar {
+      height: 2px;
+      background-color: $primary-text-color !important;
+    }
+  }
+
+  .content-information-session {
+    display: flex;
+    flex-direction: column;
+    .title-session {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 16px;
+
+      .title {
+        font-family: $font-sans;
+        font-size: 14px;
+        color: $secondary-text-color;
+      }
+
+      .hide-content-button {
+        margin-left: 5px;
+        margin-top: 5px;
+
+        .eye-svg {
+          width: 16px;
+          height: 16px;
+          color: $secondary-text-color;
+        }
+      }
+    }
+
+    .current-amount-label {
+      font-family: $font-sans;
+      margin-top: 8px;
+      font-size: 40px;
+      line-height: 52px;
+      font-weight: 700;
+    }
+
+    .current-amount-sub-label {
+      color: $secondary-text-color;
+      margin-top: 8px;
+      font-size: 16px;
+    }
+
+    .profit-session {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin-top: 24px;
+
+      .profit-item {
+        flex: 1;
+        .profit-title {
+          margin-bottom: 4px;
+          .profit-item-label {
+            background-color: $primary-bg-color;
+            color: $secondary-text-color;
+            border: none;
+            font-size: 14px;
+            font-family: $font-sans;
+            border-bottom: dotted 1px $secondary-text-color;
+            padding: 0;
+          }
+        }
+
+        .profit-value {
+          font-family: $font-sans;
+          font-size: 20px;
+          line-height: 28px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
