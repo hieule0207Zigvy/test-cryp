@@ -1,8 +1,8 @@
 export type DefaultEntity = {
-  id: string;
-};
+  id: string
+}
 
 export type DefaultParams = {
-  page?: number;
-  take?: number;
-};
+  page?: number
+  take?: number
+}

@@ -6,7 +6,8 @@ export const themeColors = {
   text: '#f4f5f7',
   background: '#151517',
   danger: '#f1493f',
-  warn: '#FF9142'
+  warn: '#FF9142',
+  transparent: 'transparent'
 }
 
 export const globalTheme: ThemeConfig = {
