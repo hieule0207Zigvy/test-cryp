@@ -1,4 +1,7 @@
+import { mockData } from '@/assets/mock.data'
+import AreaChart from '@/components/area-chart'
 import { Button, Input } from 'antd'
+import dayjs from 'dayjs'
 import { memo } from 'react'
 
 const Dashboard = () => {
@@ -9,6 +12,8 @@ const Dashboard = () => {
         haha
       </Button>
       <Input />
+
+      <AreaChart data={mockData.map((item) => ({ ...item, time: dayjs(item.time).format('YYYY-MM-DD') }))} />
     </>
   )
 }
