@@ -19,6 +19,8 @@ type AreaChartProps = {
   data: (AreaData<Time> | WhitespaceData<Time>)[]
   options?: DeepPartial<ChartOptions>
   areaOptions?: AreaSeriesPartialOptions
+  from?: string | null
+  to?: string | null
 }
 
 // Get the current users primary locale
@@ -30,7 +32,7 @@ const myPriceFormatter = Intl.NumberFormat(currentLocale, {
 }).format
 
 const AreaChart = (props: AreaChartProps) => {
-  const { data, options, areaOptions } = props
+  const { data, options, areaOptions, from, to } = props
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null)
   const chartRef = useRef<IChartApi | null>(null)
@@ -38,7 +40,7 @@ const AreaChart = (props: AreaChartProps) => {
   useEffect(() => {
     chartRef.current = createChart(chartContainerRef.current!, {
       width: chartContainerRef.current?.clientWidth,
-      height: 300,
+      height: 278,
       layout: { background: { color: themeColors.transparent }, textColor: themeColors.text },
       grid: { vertLines: { color: themeColors.transparent }, horzLines: { color: themeColors.transparent } },
       crosshair: { mode: CrosshairMode.Normal },
@@ -75,8 +77,8 @@ const AreaChart = (props: AreaChartProps) => {
 
     areaSeries.setData(data)
 
-    const fromTimestamp = data[data.length - Math.min(10, data.length)].time
-    const toTimestamp = data[data.length - 1].time
+    const fromTimestamp = from ?? data[data.length - Math.min(10, data.length)].time
+    const toTimestamp = to ?? data[data.length - 1].time
 
     chartRef.current.timeScale().setVisibleRange({
       from: fromTimestamp,
@@ -89,13 +91,9 @@ const AreaChart = (props: AreaChartProps) => {
         chartRef.current = null
       }
     }
-  }, [areaOptions, data, options])
+  }, [areaOptions, data, from, options, to])
 
-  return (
-    <div className='area-chart'>
-      <div ref={chartContainerRef} />
-    </div>
-  )
+  return <div ref={chartContainerRef} />
 }
 
 export default memo(AreaChart)

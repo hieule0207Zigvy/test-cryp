@@ -5,6 +5,8 @@ body {
   color: $primary-text-color;
   background-color: $primary-bg-color;
   margin: 0;
+
+  font-size: 1.6rem;
 }
 
 h1 h2 h3 h4 h5 p span {
@@ -15,10 +17,21 @@ h1 h2 h3 h4 h5 p span {
   box-sizing: border-box;
 }
 
-:root {
-  --border: #38393d;
-}
-
 html {
   font-size: 62.5%;
+}
+
+:root {
+  --border: #38393d;
+  --text: #f4f5f7;
+  --text-disabled: #57585c;
+  --content-tertiary: #8e8e92;
+}
+
+.ant-segmented-item-label {
+  font-weight: 500;
+}
+
+.ant-picker-input > input {
+  font-weight: 500;
 }
