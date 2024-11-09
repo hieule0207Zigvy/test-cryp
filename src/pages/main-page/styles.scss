@@ -6,5 +6,20 @@
   display: flex;
   flex-direction: column;
   padding: 32px;
+}
 
+.main-page-charts-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.main-page-chart-layout {
+  display: grid;
+  gap: 2rem;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  .main-page-chart:first-child {
+    grid-column: 1 / -1;
+  }
 }
