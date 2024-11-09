@@ -866,3 +866,37 @@ export const mockData = [
   { time: 1747180800000, value: 72.36 },
   { time: 1747267200000, value: 85.47 }
 ]
+
+export const histogramData = [
+  { value: 16, time: new Date('2024-01-10').getTime() },
+  { value: -16, time: new Date('2024-01-11').getTime(), color: 'red' },
+  { value: -5, time: new Date('2024-01-12').getTime(), color: 'red' },
+  { value: 14, time: new Date('2024-01-13').getTime() },
+  { value: -14, time: new Date('2024-01-14').getTime(), color: 'red' },
+  { value: -4, time: new Date('2024-01-15').getTime(), color: 'red' },
+  { value: 3, time: new Date('2024-01-16').getTime() },
+  { value: 7, time: new Date('2024-01-17').getTime() },
+  { value: 4, time: new Date('2024-01-18').getTime() },
+  { value: 5, time: new Date('2024-01-19 ').getTime() },
+  { value: 16, time: new Date('2024-01-20').getTime() },
+  { value: -16, time: new Date('2024-01-21').getTime(), color: 'red' },
+  { value: -5, time: new Date('2024-01-22').getTime(), color: 'red' },
+  { value: 14, time: new Date('2024-01-23').getTime() },
+  { value: -14, time: new Date('2024-01-24').getTime(), color: 'red' },
+  { value: -4, time: new Date('2024-01-25').getTime(), color: 'red' },
+  { value: 3, time: new Date('2024-01-26').getTime() },
+  { value: 7, time: new Date('2024-01-27').getTime() },
+  { value: 4, time: new Date('2024-01-28').getTime() },
+  { value: 5, time: new Date('2024-01-29 ').getTime() },
+  { value: 16, time: new Date('2024-01-30').getTime() },
+  { value: -16, time: new Date('2024-01-31').getTime(), color: 'red' },
+  { value: -5, time: new Date('2024-02-1').getTime(), color: 'red' },
+  { value: -5, time: new Date('2024-02-2').getTime(), color: 'red' },
+  { value: 14, time: new Date('2024-02-3').getTime() },
+  { value: -14, time: new Date('2024-02-4').getTime(), color: 'red' },
+  { value: -4, time: new Date('2024-02-5').getTime(), color: 'red' },
+  { value: 3, time: new Date('2024-02-6').getTime() },
+  { value: 7, time: new Date('2024-02-7').getTime() },
+  { value: 4, time: new Date('2024-02-8').getTime() },
+  { value: 5, time: new Date('2024-02-9 ').getTime() }
+].sort((a, b) => a.time - b.time)

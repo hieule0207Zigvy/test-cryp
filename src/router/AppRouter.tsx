@@ -14,9 +14,8 @@ export const PRIVATE_ROUTES = {
 type PrivateRoutesType = { path: string; element: ReactNode }[]
 
 const privateRoutes: PrivateRoutesType = [
-  { path: PRIVATE_ROUTES.MAIN, element: <Dashboard /> },
-  { path: PRIVATE_ROUTES.SUB, element: <Sub /> },
-  { path: PRIVATE_ROUTES.HIEU, element: <MainPage /> }
+  { path: PRIVATE_ROUTES.MAIN, element: <MainPage /> },
+  { path: PRIVATE_ROUTES.SUB, element: <Sub /> }
 ]
 
 const AppRouter = () => {

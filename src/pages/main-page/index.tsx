@@ -17,8 +17,8 @@ const MainPage: React.FC = () => {
 
       <div className='main-page-chart-layout'>
         <OverAllChart />
-        <TendencyChart />
         <DailyProfitLossChart />
+        <TendencyChart />
       </div>
     </div>
   )

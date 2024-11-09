@@ -1,9 +1,10 @@
-import { mockData } from '@/assets/mock.data'
+import { histogramData, mockData } from '@/assets/mock.data'
 import AreaChart from '@/components/area-chart'
 import ChartSubtitles from '@/components/common-chart/chart-subtitles'
 import ChartTitle from '@/components/common-chart/chart-title'
 import ChartYAxisTitle from '@/components/common-chart/chart-y-axis-title'
 import CommonChartWrapper from '@/components/common-chart/common-chart-wrapper'
+import HistogramChart from '@/components/histogram-chart'
 import dayjs from 'dayjs'
 import { memo } from 'react'
 
@@ -18,7 +19,8 @@ const DailyProfitLossChart = () => {
         <ChartYAxisTitle title='Lời&Lỗ hôm nay'>0.00 VND</ChartYAxisTitle>
       </ChartSubtitles>
 
-      <AreaChart data={mockData.map((item) => ({ ...item, time: dayjs(item.time).format('YYYY-MM-DD') }))} />
+      {/* <AreaChart data={mockData.map((item) => ({ ...item, time: dayjs(item.time).format('YYYY-MM-DD') }))} /> */}
+      <HistogramChart data={histogramData.map((item) => ({ ...item, time: dayjs(item.time).format('YYYY-MM-DD') }))} />
     </CommonChartWrapper>
   )
 }
