@@ -8,7 +8,8 @@ export const themeColors = {
   danger: '#f1493f',
   warn: '#FF9142',
   transparent: 'transparent',
-  backgroundSecondary: '#38393d'
+  backgroundSecondary: '#38393d',
+  border: '#27282B'
 } as const
 
 export const globalTheme: ThemeConfig = {
@@ -38,8 +39,8 @@ export const globalTheme: ThemeConfig = {
     Input: {
       algorithm: true,
       colorBgContainer: themeColors.background,
-      hoverBorderColor: '#27282B',
-      colorBorder: '#27282B',
+      hoverBorderColor: themeColors.border,
+      colorBorder: themeColors.border,
       borderRadius: 9999,
 
       controlHeight: 40,
