@@ -1,3 +1,5 @@
+import { MockingInformation } from '@/types/general.type'
+
 export const mockData = [
   { time: 1672531200000, value: 68.22 },
   { time: 1672617600000, value: 90.32 },
@@ -900,3 +902,24 @@ export const histogramData = [
   { value: 4, time: new Date('2024-02-8').getTime() },
   { value: 5, time: new Date('2024-02-9 ').getTime() }
 ].sort((a, b) => a.time - b.time)
+
+export const mockDataInformation: Record<string, MockingInformation> = {
+  USDT_M_Futures: {
+    total: 0.000012,
+    profitByToday: 7750000,
+    profitByWeek: 283728782,
+    profitBytMonth: 3478388
+  },
+  Coin_M_Futures: {
+    total: 0.000222,
+    profitByToday: 75650000,
+    profitByWeek: 24354782,
+    profitBytMonth: 78458388
+  },
+  USDC_M_Futures: {
+    total: 0.000012,
+    profitByToday: 7766000,
+    profitByWeek: 28128782,
+    profitBytMonth: 39898388
+  }
+}
