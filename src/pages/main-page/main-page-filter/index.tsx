@@ -1,58 +1,124 @@
-import { DatePicker, Flex, Segmented } from 'antd'
+import { DatePicker, Flex, Grid, Segmented } from 'antd'
 import dayjs, { Dayjs } from 'dayjs'
-import { memo, useState } from 'react'
-import './styles.scss'
+import { memo, ReactNode, useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import './styles.scss'
 
-type RangeValueType = [start: Dayjs | null, end: Dayjs | null] | null
+type RangePickerValueType = [start: Dayjs | null, end: Dayjs | null] | null
 
-type FilterOption = { label: string; value?: RangeValueType }
+const filterOptions = [
+  { label: '7 ngày', value: 'week' },
+  { label: '30 ngày', value: 'month' },
+  { label: 'Tùy chỉnh', value: 'custom' }
+]
 
-const filterOptions: { week: FilterOption; month: FilterOption; custom: FilterOption } = {
-  week: { label: '7 ngày', value: [dayjs().subtract(6, 'day'), dayjs()] },
-  month: { label: '30 ngày', value: [dayjs().subtract(29, 'day'), dayjs()] },
-  custom: { label: 'Tùy chỉnh' }
+const responsiveFilterOptions = [
+  { label: '7 ngày qua', value: 'week' },
+  { label: '30 ngày gần nhất', value: 'month' }
+]
+
+const rangePickerOptions = {
+  week: [dayjs().subtract(6, 'day'), dayjs()],
+  month: [dayjs().subtract(29, 'day'), dayjs()]
 }
+
+const [weekStart, weekEnd] = rangePickerOptions.week
+
+const dayFormat = 'YYYY-MM-DD'
+
+const formattedDay = (day: Dayjs) => dayjs(day).format(dayFormat)
 
 const MainPageFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { lg } = Grid.useBreakpoint()
+  const [openRangePicker, setOpenRangePicker] = useState(false)
 
-  const [quickFilterOption, setQuickFilterOption] = useState(filterOptions.week.label)
-  const [dates, setDates] = useState<RangeValueType>(filterOptions.week.value!)
+  const quickFilterValue = (searchParams.get('filterType') ?? 'week') as string
 
-  const handleChangeQuickFilter = (e: string) => {
-    setQuickFilterOption(e)
+  const rangePickerValue = useMemo(() => {
+    const from = searchParams.get('from')
+    const to = searchParams.get('to')
 
-    const option = Object.keys(filterOptions).find(
-      (key) => filterOptions[key as keyof typeof filterOptions].label === e
-    ) as keyof typeof filterOptions
+    const start = from ? dayjs(from) : weekStart
+    const end = to ? dayjs(to) : weekEnd
 
-    const newDates = filterOptions[option]?.value ?? dates
-    setDates(newDates)
-    setSearchParams({ from: dayjs(newDates![0])?.format('YYYY-MM-DD'), to: dayjs(newDates![1])?.format('YYYY-MM-DD') })
+    return [start, end] as RangePickerValueType
+  }, [searchParams])
+
+  const handleChangeQuickFilter = useCallback(
+    (e: string) => {
+      const newRangePickerValue = rangePickerOptions[e as keyof typeof rangePickerOptions]
+
+      if (!newRangePickerValue) {
+        return setSearchParams({
+          filterType: e,
+          from: searchParams.get('from') ?? formattedDay(weekStart),
+          to: searchParams.get('to') ?? formattedDay(weekEnd)
+        })
+      }
+
+      const [newRangeStart, newRangeEnd] = newRangePickerValue
+
+      setSearchParams({
+        filterType: e,
+        from: formattedDay(newRangeStart),
+        to: formattedDay(newRangeEnd)
+      })
+    },
+    [searchParams, setSearchParams]
+  )
+
+  const handleChangeRangePicker = (e: RangePickerValueType) => {
+    setSearchParams({
+      filterType: 'custom',
+      from: formattedDay(e![0]!),
+      to: formattedDay(e![1]!)
+    })
+    setOpenRangePicker(false)
   }
 
-  const handleChangeDates = (e: RangeValueType) => {
-    setDates(e)
-    setQuickFilterOption(filterOptions.custom.label)
-    setSearchParams({ from: dayjs(e![0])?.format('YYYY-MM-DD'), to: dayjs(e![1])?.format('YYYY-MM-DD') })
+  const handleRenderPanel = (originPanel: ReactNode) => {
+    const handleChange = (value: string) => () => {
+      handleChangeQuickFilter(value)
+      setOpenRangePicker(false)
+    }
+
+    return (
+      <Flex>
+        <div className='main-page-range-picker-left-panel'>
+          {responsiveFilterOptions.map(({ value, label }) => (
+            <div className='main-page-range-picker-left-panel-item' onClick={handleChange(value)}>
+              {label}
+            </div>
+          ))}
+        </div>
+
+        {originPanel}
+      </Flex>
+    )
   }
 
   return (
     <Flex gap={12} className='main-page-filter'>
-      <Segmented
-        size='large'
-        value={quickFilterOption}
-        onChange={handleChangeQuickFilter}
-        options={Object.values(filterOptions).map((option) => option.label)}
-      />
+      {lg && (
+        <Segmented
+          size='large'
+          value={quickFilterValue}
+          onChange={handleChangeQuickFilter}
+          options={filterOptions as unknown as string[]}
+        />
+      )}
 
       <DatePicker.RangePicker
-        value={dates}
         separator='-'
         allowClear={false}
-        onChange={handleChangeDates}
-        format={(value) => (value ? `${value.format('YYYY-MM-DD')} (UTC+0)` : '')}
+        open={openRangePicker}
+        value={rangePickerValue}
+        onOpenChange={setOpenRangePicker}
+        onChange={handleChangeRangePicker}
+        popupClassName='main-profile-filter-range-picker-popup'
+        panelRender={(panel) => (lg ? panel : handleRenderPanel(panel))}
+        format={(value) => (value ? `${value.format(dayFormat)} (UTC+0)` : '')}
       />
     </Flex>
   )

@@ -30,7 +30,8 @@ export default tseslint.config(
       'prettier/prettier': 'error', // Enforce Prettier formatting as ESLint errors
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+
       '@typescript-eslint/no-unused-vars': 'warn', // Warn on unused variables
-      'react/prop-types': 'off' // Disable prop-types check (if using TypeScript)
+      'react/prop-types': 'off', // Disable prop-types check (if using TypeScript)
+      '@typescript-eslint/no-explicit-any': 'off'
     }
   }
 )
