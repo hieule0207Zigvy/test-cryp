@@ -1,33 +1,37 @@
 import { memo } from 'react'
 import './information.scss'
 import { Tabs, TabsProps, Tooltip } from 'antd'
+import { CurrencyType, CurrencyTypeName, ProfitContent, ProfitLabel } from '@/enums/currency-type.enums'
+import { useSearchParams } from 'react-router-dom'
+import { SearchParams } from '@/enums/param.enums'
+import { mockDataInformation } from '@/assets/mock.data'
+import { formatCurrency } from '@/utils'
 
 const InformationTab: React.FC = () => {
-  const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: <span className='tab-item'>{'USDT-M Futures'}</span>
-    },
-    {
-      key: '2',
-      label: <span className='tab-item'>{'Coin-M Futures'}</span>
-    },
-    {
-      key: '3',
-      label: <span className='tab-item'>{'USDC-M Futures'}</span>
-    }
-  ]
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const profitContentToday = `* Lời&Lỗ hôm nay = tài sản hiện tại - tài sản khi chụp nhanh vào 00:00 (UTC+0) hôm nay - tiền chuyển ròng nội bộ hôm nay.
-* Bảo trì dữ liệu diễn ra từ 00:00 đến 7:00 mỗi ngày. Dữ liệu sẽ không được cập nhật trong khoảng thời gian này.`
-  const profitContentWeek = `* Lời&Lỗ 7 ngày = tài sản hiện tại - tài sản khi chụp nhanh vào 00:00 (UTC+0) 7 ngày trước - tiền chuyển ròng nội bộ 7 ngày.
-* Bảo trì dữ liệu diễn ra từ 00:00 đến 7:00 mỗi ngày. Dữ liệu sẽ không được cập nhật trong khoảng thời gian này.`
-  const profitContentMonth = `* Lời&Lỗ 30 ngày = tài sản hiện tại - tài sản khi chụp nhanh vào 00:00 (UTC+0) 30 ngày trước - tiền chuyển ròng nội bộ 30 ngày.
-* Bảo trì dữ liệu diễn ra từ 00:00 đến 7:00 mỗi ngày. Dữ liệu sẽ không được cập nhật trong khoảng thời gian này.`
+  const items: TabsProps['items'] = Object.keys(CurrencyTypeName).map((currency: string) => {
+    return {
+      key: currency,
+      label: <span className='tab-item'>{CurrencyTypeName[currency as keyof typeof CurrencyType]}</span>
+    }
+  })
+  const currencyType = searchParams.get(SearchParams.currency) ?? CurrencyType.Coin_M_Futures
+
+  const profitData = mockDataInformation[currencyType] || {}
+
+  console.log('TCL - file: index.tsx:21 - profitData:', profitData)
   return (
     <div className='information-session'>
       <div className='currency-list-session'>
-        <Tabs defaultActiveKey='1' items={items} className='tab' />
+        <Tabs
+          defaultActiveKey='1'
+          items={items}
+          className='tab'
+          onChange={(v) => {
+            setSearchParams({ [SearchParams.currency]: v })
+          }}
+        />
       </div>
       <div className='content-information-session'>
         <div className='title-session'>
@@ -44,32 +48,32 @@ const InformationTab: React.FC = () => {
             </svg>
           </div>
         </div>
-        <span className='current-amount-label'>{'0.00 BTC'}</span>
-        <span className='current-amount-sub-label'>{`≈ 0.00 VND`}</span>
+        <span className='current-amount-label'>{`${profitData.total} BTC`}</span>
+        <span className='current-amount-sub-label'>{`≈ ${formatCurrency(profitData.total * 2329587253.39)} VND`}</span>
         <div className='profit-session'>
           <div className='profit-item'>
             <div className='profit-title'>
-              <Tooltip placement='top' title={profitContentToday}>
-                <button className='profit-item-label'>Lời&Lỗ hôm nay</button>
+              <Tooltip placement='top' title={ProfitContent.profitByToday}>
+                <button className='profit-item-label'>{ProfitLabel.profitByToday}</button>
               </Tooltip>
             </div>
-            <span className='profit-value'>{'0.00 VND'}</span>
+            <span className='profit-value'>{`${formatCurrency(profitData.profitByToday)} VND`}</span>
           </div>
           <div className='profit-item'>
             <div className='profit-title'>
-              <Tooltip placement='top' title={profitContentWeek}>
-                <button className='profit-item-label'>Lời/Lỗ 7 ngày</button>
+              <Tooltip placement='top' title={ProfitContent.profitByWeek}>
+                <button className='profit-item-label'>{ProfitLabel.profitByWeek}</button>
               </Tooltip>
             </div>
-            <span className='profit-value'>{'0.00 VND'}</span>
+            <span className='profit-value'>{`${formatCurrency(profitData.profitByWeek)} VND`}</span>
           </div>
           <div className='profit-item'>
             <div className='profit-title'>
-              <Tooltip placement='top' title={profitContentMonth}>
-                <button className='profit-item-label'>Lời/Lỗ 30 ngày</button>
+              <Tooltip placement='top' title={ProfitContent.profitBytMonth}>
+                <button className='profit-item-label'>{ProfitLabel.profitBytMonth}</button>
               </Tooltip>
             </div>
-            <span className='profit-value'>{'0.00 VND'}</span>
+            <span className='profit-value'>{`${formatCurrency(profitData.profitBytMonth)} VND`}</span>
           </div>
         </div>
       </div>

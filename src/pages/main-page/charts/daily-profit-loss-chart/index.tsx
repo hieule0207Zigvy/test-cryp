@@ -19,7 +19,6 @@ const DailyProfitLossChart = () => {
         <ChartYAxisTitle title='Lời&Lỗ hôm nay'>0.00 VND</ChartYAxisTitle>
       </ChartSubtitles>
 
-      {/* <AreaChart data={mockData.map((item) => ({ ...item, time: dayjs(item.time).format('YYYY-MM-DD') }))} /> */}
       <HistogramChart data={histogramData.map((item) => ({ ...item, time: dayjs(item.time).format('YYYY-MM-DD') }))} />
     </CommonChartWrapper>
   )
