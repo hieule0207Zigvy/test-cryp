@@ -19,7 +19,17 @@ import { DefaultOptionType } from 'antd/es/select'
 import { ComponentType, FocusEvent, Ref, memo, useCallback, useMemo } from 'react'
 import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form'
 
-type InputType = 'input' | 'select' | 'datePicker' | 'timePicker' | 'checkbox' | 'radioGroup' | 'checkboxGroup'
+const numberRegex = /^-?\d*(\.\d*)?$/
+
+type InputType =
+  | 'input'
+  | 'select'
+  | 'datePicker'
+  | 'timePicker'
+  | 'checkbox'
+  | 'radioGroup'
+  | 'checkboxGroup'
+  | 'number'
 
 const components: Record<InputType, ComponentType<any>> = {
   input: Input,
@@ -28,7 +38,8 @@ const components: Record<InputType, ComponentType<any>> = {
   timePicker: TimePicker,
   checkbox: Checkbox,
   checkboxGroup: Checkbox.Group,
-  radioGroup: Radio.Group
+  radioGroup: Radio.Group,
+  number: Input
 }
 
 type InputTypePropsMap = {
@@ -39,6 +50,7 @@ type InputTypePropsMap = {
   checkbox: CheckboxProps
   checkboxGroup: CheckboxGroupProps
   radioGroup: RadioGroupProps
+  number: InputProps
 }
 
 type RefType = {
@@ -74,10 +86,21 @@ const ControlledInput = <FV extends FieldValues>(props: ControlledInputProps<FV>
 
   const handleChange = useCallback(
     (arg0: any, arg1: (DefaultOptionType | DefaultOptionType[]) & (string | string[])) => {
-      inputProps?.onChange?.(arg0, arg1)
-      field.onChange(arg0, arg1)
+      if (inputType !== 'number') {
+        inputProps?.onChange?.(arg0, arg1)
+        field.onChange(arg0, arg1)
+
+        return
+      }
+
+      const { value: inputValue } = arg0.target
+
+      if (numberRegex.test(inputValue) || inputValue === '' || inputValue === '-') {
+        inputProps?.onChange?.(inputValue)
+        field.onChange(inputValue)
+      }
     },
-    [inputProps, field]
+    [inputType, inputProps, field]
   )
 
   const handleBlur = useCallback(
@@ -102,6 +125,7 @@ const ControlledInput = <FV extends FieldValues>(props: ControlledInputProps<FV>
         ref={inputRef}
         onBlur={handleBlur}
         onChange={handleChange}
+        value={field.value ?? ''}
       />
     </Form.Item>
   )

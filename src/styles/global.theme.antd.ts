@@ -52,9 +52,10 @@ export const globalTheme: ThemeConfig = {
       algorithm: true,
       borderRadius: 9999,
       paddingInline: 16,
-      colorPrimary: themeColors.text,
       hoverBorderColor: '#424242',
-      colorTextLightSolid: '#000000'
+      colorPrimary: themeColors.text,
+      colorTextLightSolid: '#000000',
+      colorBgContainer: themeColors.transparent
     },
     Segmented: {
       algorithm: true,
@@ -63,6 +64,9 @@ export const globalTheme: ThemeConfig = {
       borderRadiusLG: 9999,
       paddingContentHorizontalLG: 20,
       fontSizeLG: 14
+    },
+    Drawer: {
+      colorBgElevated: '#17181A'
     }
   }
 }

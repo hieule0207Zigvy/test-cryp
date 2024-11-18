@@ -20,7 +20,6 @@ const InformationTab: React.FC = () => {
 
   const profitData = mockDataInformation[currencyType] || {}
 
-  console.log('TCL - file: index.tsx:21 - profitData:', profitData)
   return (
     <div className='information-session'>
       <div className='currency-list-session'>

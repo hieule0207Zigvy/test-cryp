@@ -53,3 +53,31 @@
     }
   }
 }
+
+.main-page-filter-drawer {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  border: 0.1rem solid var(--border-1);
+
+  .ant-drawer-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .ant-drawer-header {
+    .ant-drawer-header-title {
+      flex-direction: row-reverse;
+    }
+
+    .ant-drawer-close {
+      margin: 0;
+    }
+
+    .ant-drawer-title {
+      display: flex;
+      justify-content: center;
+      padding-left: 2.4rem;
+    }
+  }
+}

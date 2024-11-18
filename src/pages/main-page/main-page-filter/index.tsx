@@ -1,8 +1,10 @@
-import { DatePicker, Flex, Grid, Segmented } from 'antd'
+import { Button, DatePicker, Drawer, Flex, Form, Grid, Segmented } from 'antd'
 import dayjs, { Dayjs } from 'dayjs'
 import { memo, ReactNode, useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import './styles.scss'
+import ControlledInput from '@/components/controlled-input'
+import { useForm } from 'react-hook-form'
 
 type RangePickerValueType = [start: Dayjs | null, end: Dayjs | null] | null
 
@@ -30,7 +32,7 @@ const formattedDay = (day: Dayjs) => dayjs(day).format(dayFormat)
 
 const MainPageFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const { lg } = Grid.useBreakpoint()
+  const { lg, sm } = Grid.useBreakpoint()
   const [openRangePicker, setOpenRangePicker] = useState(false)
 
   const quickFilterValue = (searchParams.get('filterType') ?? 'week') as string
@@ -98,6 +100,16 @@ const MainPageFilter = () => {
     )
   }
 
+  const [openDrawer, setOpenDrawer] = useState(false)
+  const toggleDrawer = () => setOpenDrawer(!openDrawer)
+
+  const [openChildDrawer, setOpenChildDrawer] = useState(false)
+  const toggleChildDrawer = () => setOpenChildDrawer(!openDrawer)
+
+  console.log(openChildDrawer)
+
+  const { control, handleSubmit } = useForm()
+
   return (
     <Flex gap={12} className='main-page-filter'>
       {lg && (
@@ -109,17 +121,61 @@ const MainPageFilter = () => {
         />
       )}
 
-      <DatePicker.RangePicker
-        separator='-'
-        allowClear={false}
-        open={openRangePicker}
-        value={rangePickerValue}
-        onOpenChange={setOpenRangePicker}
-        onChange={handleChangeRangePicker}
-        popupClassName='main-profile-filter-range-picker-popup'
-        panelRender={(panel) => (lg ? panel : handleRenderPanel(panel))}
-        format={(value) => (value ? `${value.format(dayFormat)} (UTC+0)` : '')}
-      />
+      {sm && (
+        <DatePicker.RangePicker
+          separator='-'
+          allowClear={false}
+          open={openRangePicker}
+          value={rangePickerValue}
+          onOpenChange={setOpenRangePicker}
+          onChange={handleChangeRangePicker}
+          popupClassName='main-profile-filter-range-picker-popup'
+          panelRender={(panel) => (lg ? panel : handleRenderPanel(panel))}
+          format={(value) => (value ? `${value.format(dayFormat)} (UTC+0)` : '')}
+        />
+      )}
+
+      <Button shape='round' onClick={toggleDrawer}>
+        Tùy chỉnh
+      </Button>
+
+      <Drawer
+        title='Lọc'
+        open={openDrawer}
+        placement='bottom'
+        onClose={toggleDrawer}
+        className='main-page-filter-drawer'
+      >
+        <div>Thời gian</div>
+        <Segmented
+          block
+          size='large'
+          value={quickFilterValue}
+          onChange={handleChangeQuickFilter}
+          options={filterOptions as unknown as string[]}
+        />
+
+        <div>Ngày bắt đầu</div>
+        <DatePicker size='large' />
+
+        <div>Ngày kết thúc</div>
+        <DatePicker
+          onClick={(e) => {
+            console.log(e)
+            toggleChildDrawer()
+          }}
+          size='large'
+        />
+
+        <Form onFinish={handleSubmit((e) => console.log(e))}>
+          <ControlledInput control={control} name='test' inputType='number' />
+          <Button htmlType='submit'>submit</Button>
+        </Form>
+
+        <Drawer placement='bottom' open={openChildDrawer} onClose={toggleChildDrawer}>
+          hihi
+        </Drawer>
+      </Drawer>
     </Flex>
   )
 }

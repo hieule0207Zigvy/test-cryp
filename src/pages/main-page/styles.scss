@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   padding: 32px;
-  @include sm{
+  @include sm {
     padding: 16px;
   }
 }
@@ -32,7 +32,7 @@
     overflow: hidden;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: $screen-lg-min) {
     grid-template-columns: 1fr;
 
     .main-page-chart {
