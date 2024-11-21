@@ -43,7 +43,7 @@
   .ant-drawer-body {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.6rem;
   }
 
   .ant-drawer-header {
@@ -110,5 +110,9 @@
     padding: 1rem;
     cursor: pointer;
   }
+}
+
+.mobile-filter-action-buttons {
+  margin-top: auto;
 }
 /* --------------------------- Mobile date picker --------------------------- */

@@ -87,6 +87,29 @@ const MainPageFilter = () => {
   const toggleStartPickerDrawer = () => setOpenStartPickerDrawer((prev) => !prev)
   const toggleEndPickerDrawer = () => setOpenEndPickerDrawer((prev) => !prev)
 
+  const [drawerRangeValue, setDrawerRangeValue] = useState(rangePickerValue)
+
+  const [mobileChangeQuickOption, setMobileChangeQuickOption] = useState(quickFilterValue)
+
+  const handleMobileChangeQuickOption = (e: string) => {
+    const newRangePicker = rangePickerOptions[e as keyof typeof rangePickerOptions]
+
+    setMobileChangeQuickOption(e)
+
+    if (!newRangePicker) {
+      const newFrom = searchParams.get('from') ?? formattedDay(weekStart)
+      const newTo = searchParams.get('to') ?? formattedDay(weekEnd)
+
+      setDrawerRangeValue([dayjs(newFrom, dayFormat), dayjs(newTo, dayFormat)])
+
+      return
+    }
+
+    const [newRangeStart, newRangeEnd] = newRangePicker
+
+    setDrawerRangeValue([newRangeStart, newRangeEnd])
+  }
+
   return (
     <Flex gap={12} className='main-page-filter'>
       {lg && (
@@ -124,15 +147,19 @@ const MainPageFilter = () => {
         push={false}
         open={openDrawer}
         placement='bottom'
-        onClose={toggleDrawer}
         className='main-page-filter-drawer'
+        onClose={() => {
+          toggleDrawer()
+          setDrawerRangeValue(rangePickerValue)
+          setMobileChangeQuickOption(searchParams.get('filterType') ?? 'week')
+        }}
       >
         <div>Thời gian</div>
         <Segmented
           block
           size='large'
-          value={quickFilterValue}
-          onChange={handleChangeQuickFilter}
+          value={mobileChangeQuickOption}
+          onChange={handleMobileChangeQuickOption}
           options={filterOptions as unknown as string[]}
         />
 
@@ -141,7 +168,8 @@ const MainPageFilter = () => {
           open={false}
           size='large'
           inputReadOnly
-          value={rangePickerValue![0]}
+          allowClear={false}
+          value={drawerRangeValue![0]}
           onClick={toggleStartPickerDrawer}
         />
 
@@ -150,30 +178,71 @@ const MainPageFilter = () => {
           open={false}
           size='large'
           inputReadOnly
-          value={rangePickerValue![1]}
+          allowClear={false}
+          value={drawerRangeValue![1]}
           onClick={toggleEndPickerDrawer}
         />
+
+        <Flex gap={12} className='mobile-filter-action-buttons'>
+          <Button block shape='round' onClick={() => handleMobileChangeQuickOption('week')}>
+            Đặt lại
+          </Button>
+
+          <Button
+            block
+            shape='round'
+            color='default'
+            variant='solid'
+            onClick={() => {
+              toggleDrawer()
+
+              const params = {
+                filterType: mobileChangeQuickOption,
+                to: formattedDay(drawerRangeValue![1]!),
+                from: formattedDay(drawerRangeValue![0]!)
+              }
+
+              setSearchParams(params)
+            }}
+          >
+            Xác nhận
+          </Button>
+        </Flex>
 
         <Drawer
           height={420}
           destroyOnClose
+          title='Chọn ngày'
           placement='bottom'
           open={openStartPickerDrawer}
           onClose={toggleStartPickerDrawer}
           className='main-page-filter-drawer'
         >
-          <MobileDatePicker dateType='start' />
+          <MobileDatePicker
+            dateType='start'
+            drawerRangeValue={drawerRangeValue}
+            toggleDrawer={toggleStartPickerDrawer}
+            setDrawerRangeValue={setDrawerRangeValue}
+            setMobileChangeQuickOption={setMobileChangeQuickOption}
+          />
         </Drawer>
 
         <Drawer
           height={420}
           destroyOnClose
+          title='Chọn ngày'
           placement='bottom'
           open={openEndPickerDrawer}
           onClose={toggleEndPickerDrawer}
           className='main-page-filter-drawer'
         >
-          <MobileDatePicker dateType='end' />
+          <MobileDatePicker
+            dateType='end'
+            drawerRangeValue={drawerRangeValue}
+            toggleDrawer={toggleEndPickerDrawer}
+            setDrawerRangeValue={setDrawerRangeValue}
+            setMobileChangeQuickOption={setMobileChangeQuickOption}
+          />
         </Drawer>
       </Drawer>
     </Flex>

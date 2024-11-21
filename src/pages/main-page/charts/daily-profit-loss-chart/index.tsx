@@ -1,5 +1,4 @@
-import { histogramData, mockData } from '@/assets/mock.data'
-import AreaChart from '@/components/area-chart'
+import { histogramData } from '@/assets/mock.data'
 import ChartSubtitles from '@/components/common-chart/chart-subtitles'
 import ChartTitle from '@/components/common-chart/chart-title'
 import ChartYAxisTitle from '@/components/common-chart/chart-y-axis-title'
@@ -7,8 +6,8 @@ import CommonChartWrapper from '@/components/common-chart/common-chart-wrapper'
 import HistogramChart from '@/components/histogram-chart'
 import { MockingDataFromForm } from '@/types/general.type'
 import dayjs from 'dayjs'
-import { AreaData, HistogramData, Time, WhitespaceData } from 'lightweight-charts'
-import { isEmpty } from 'lodash'
+import { HistogramData, Time } from 'lightweight-charts'
+import { isEmpty } from 'lodash-es'
 import { memo, useEffect, useState } from 'react'
 
 const DailyProfitLossChart = () => {

@@ -1,18 +1,21 @@
-import dayjs, { Dayjs } from 'dayjs'
-import { isEqual } from 'lodash-es'
-import { Dispatch, memo, RefObject, useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import './styles.scss'
 import { Button } from 'antd'
+import dayjs, { Dayjs } from 'dayjs'
+import { Dispatch, memo, RefObject, SetStateAction, useEffect, useRef, useState } from 'react'
+import './styles.scss'
 
 const dayFormat = 'YYYY-MM-DD'
 const formattedDay = (day: Dayjs) => dayjs(day).format(dayFormat)
 
-type MobileDatePickerProps = { dateType: 'start' | 'end' }
+type MobileDatePickerProps = {
+  dateType: 'start' | 'end'
+  toggleDrawer: () => void
+  setMobileChangeQuickOption: React.Dispatch<React.SetStateAction<string>>
+  drawerRangeValue: [start: dayjs.Dayjs | null, end: dayjs.Dayjs | null] | null
+  setDrawerRangeValue: Dispatch<SetStateAction<[start: dayjs.Dayjs | null, end: dayjs.Dayjs | null] | null>>
+}
 
 const MobileDatePicker = (props: MobileDatePickerProps) => {
-  const { dateType } = props
-  const [searchParams, setSearchParams] = useSearchParams()
+  const { dateType, toggleDrawer, drawerRangeValue, setDrawerRangeValue, setMobileChangeQuickOption } = props
 
   const [day, setDay] = useState(1)
   const [month, setMonth] = useState(1)
@@ -22,8 +25,8 @@ const MobileDatePicker = (props: MobileDatePickerProps) => {
 
   const [weekStart, weekEnd] = [dayjs().subtract(6, 'day'), dayjs()]
 
-  const from = searchParams.get('from') ?? formattedDay(weekStart)
-  const to = searchParams.get('to') ?? formattedDay(weekEnd)
+  const from = drawerRangeValue![0] ?? formattedDay(weekStart)
+  const to = drawerRangeValue![1] ?? formattedDay(weekEnd)
   const date = dateType === 'start' ? from : to
 
   const initDayIndex = dayjs(date, dayFormat).date() - 1
@@ -51,19 +54,15 @@ const MobileDatePicker = (props: MobileDatePickerProps) => {
       .month(month)
       .date(day + 1)
 
-    const params = { filterType: 'custom', from, to }
-
-    const newSearchParams = { ...params }
-
     if (dateType === 'start') {
-      newSearchParams.from = formattedDay(newDate)
+      setDrawerRangeValue((prev) => [newDate, prev![1]])
     } else {
-      newSearchParams.to = formattedDay(newDate)
+      setDrawerRangeValue((prev) => [prev![1], newDate])
     }
 
-    if (isEqual(newSearchParams, params)) return
+    setMobileChangeQuickOption('custom')
 
-    setSearchParams(newSearchParams)
+    toggleDrawer()
   }
 
   return (
@@ -108,7 +107,9 @@ const MobileDatePicker = (props: MobileDatePickerProps) => {
         </div>
       </div>
 
-      <Button onClick={handleSubmit}>Chọn</Button>
+      <Button shape='round' color='default' variant='solid' onClick={handleSubmit}>
+        OK
+      </Button>
     </div>
   )
 }
@@ -133,6 +134,20 @@ const useTouchScroll = (
   const positionRef = useRef(0)
   const startRef = useRef(0)
   const saveRef = useRef(0)
+
+  const [shouldInit, setShouldInit] = useState(true)
+
+  useEffect(() => {
+    if (shouldInit && ref.current) {
+      const position = (wrapperRef.current!.getBoundingClientRect().height - ITEM_HEIGHT) / 2 - initIndex * ITEM_HEIGHT
+      ref.current!.style.transform = `translateY(${position}px)`
+      saveRef.current = position
+
+      setIndex(initIndex)
+
+      setShouldInit(() => false)
+    }
+  }, [initIndex, ref, setIndex, shouldInit, wrapperRef])
 
   useEffect(() => {
     const current = ref.current!
@@ -183,8 +198,6 @@ const useTouchScroll = (
     ref.current!.style.transition = `ease 0.2s`
   }
 
-  const [shouldInit, setShouldInit] = useState(true)
-
   const handleTouchEnd = (index: number) => (e: React.TouchEvent<HTMLDivElement>) => {
     if (Math.abs(e.changedTouches[0].clientY - startRef.current) > 20) return
 
@@ -194,18 +207,6 @@ const useTouchScroll = (
 
     setIndex(index)
   }
-
-  useEffect(() => {
-    if (shouldInit) {
-      const position = (wrapperRef.current!.getBoundingClientRect().height - ITEM_HEIGHT) / 2 - initIndex * ITEM_HEIGHT
-      ref.current!.style.transform = `translateY(${position}px)`
-      saveRef.current = position
-
-      setIndex(initIndex)
-
-      setShouldInit(() => false)
-    }
-  }, [initIndex, ref, setIndex, shouldInit, wrapperRef])
 
   return { handleTouchStart, handleTouchEnd }
 }

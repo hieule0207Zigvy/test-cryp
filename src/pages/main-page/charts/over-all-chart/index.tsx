@@ -7,7 +7,7 @@ import CommonChartWrapper from '@/components/common-chart/common-chart-wrapper'
 import { MockingDataFromForm } from '@/types/general.type'
 import dayjs from 'dayjs'
 import { AreaData, Time, WhitespaceData } from 'lightweight-charts'
-import { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash-es'
 import { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
