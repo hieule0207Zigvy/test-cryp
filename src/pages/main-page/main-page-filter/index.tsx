@@ -1,10 +1,9 @@
-import { Button, DatePicker, Drawer, Flex, Form, Grid, Segmented } from 'antd'
+import { Button, DatePicker, Drawer, Flex, Grid, Segmented } from 'antd'
 import dayjs, { Dayjs } from 'dayjs'
-import { memo, ReactNode, useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import MobileDatePicker from './mobile-date-picker'
 import './styles.scss'
-import ControlledInput from '@/components/controlled-input'
-import { useForm } from 'react-hook-form'
 
 type RangePickerValueType = [start: Dayjs | null, end: Dayjs | null] | null
 
@@ -79,36 +78,14 @@ const MainPageFilter = () => {
     setOpenRangePicker(false)
   }
 
-  const handleRenderPanel = (originPanel: ReactNode) => {
-    const handleChange = (value: string) => () => {
-      handleChangeQuickFilter(value)
-      setOpenRangePicker(false)
-    }
-
-    return (
-      <Flex>
-        <div className='main-page-range-picker-left-panel'>
-          {responsiveFilterOptions.map(({ value, label }) => (
-            <div className='main-page-range-picker-left-panel-item' onClick={handleChange(value)}>
-              {label}
-            </div>
-          ))}
-        </div>
-
-        {originPanel}
-      </Flex>
-    )
-  }
-
   const [openDrawer, setOpenDrawer] = useState(false)
   const toggleDrawer = () => setOpenDrawer(!openDrawer)
 
-  const [openChildDrawer, setOpenChildDrawer] = useState(false)
-  const toggleChildDrawer = () => setOpenChildDrawer(!openDrawer)
+  const [openStartPickerDrawer, setOpenStartPickerDrawer] = useState(false)
+  const [openEndPickerDrawer, setOpenEndPickerDrawer] = useState(false)
 
-  console.log(openChildDrawer)
-
-  const { control, handleSubmit } = useForm()
+  const toggleStartPickerDrawer = () => setOpenStartPickerDrawer((prev) => !prev)
+  const toggleEndPickerDrawer = () => setOpenEndPickerDrawer((prev) => !prev)
 
   return (
     <Flex gap={12} className='main-page-filter'>
@@ -130,8 +107,11 @@ const MainPageFilter = () => {
           onOpenChange={setOpenRangePicker}
           onChange={handleChangeRangePicker}
           popupClassName='main-profile-filter-range-picker-popup'
-          panelRender={(panel) => (lg ? panel : handleRenderPanel(panel))}
           format={(value) => (value ? `${value.format(dayFormat)} (UTC+0)` : '')}
+          presets={responsiveFilterOptions.map((option) => ({
+            label: option.label,
+            value: rangePickerOptions[option.value as keyof typeof rangePickerOptions] as any
+          }))}
         />
       )}
 
@@ -141,6 +121,7 @@ const MainPageFilter = () => {
 
       <Drawer
         title='Lọc'
+        push={false}
         open={openDrawer}
         placement='bottom'
         onClose={toggleDrawer}
@@ -156,24 +137,43 @@ const MainPageFilter = () => {
         />
 
         <div>Ngày bắt đầu</div>
-        <DatePicker size='large' />
+        <DatePicker
+          open={false}
+          size='large'
+          inputReadOnly
+          value={rangePickerValue![0]}
+          onClick={toggleStartPickerDrawer}
+        />
 
         <div>Ngày kết thúc</div>
         <DatePicker
-          onClick={(e) => {
-            console.log(e)
-            toggleChildDrawer()
-          }}
+          open={false}
           size='large'
+          inputReadOnly
+          value={rangePickerValue![1]}
+          onClick={toggleEndPickerDrawer}
         />
 
-        <Form onFinish={handleSubmit((e) => console.log(e))}>
-          <ControlledInput control={control} name='test' inputType='number' />
-          <Button htmlType='submit'>submit</Button>
-        </Form>
+        <Drawer
+          height={420}
+          destroyOnClose
+          placement='bottom'
+          open={openStartPickerDrawer}
+          onClose={toggleStartPickerDrawer}
+          className='main-page-filter-drawer'
+        >
+          <MobileDatePicker dateType='start' />
+        </Drawer>
 
-        <Drawer placement='bottom' open={openChildDrawer} onClose={toggleChildDrawer}>
-          hihi
+        <Drawer
+          height={420}
+          destroyOnClose
+          placement='bottom'
+          open={openEndPickerDrawer}
+          onClose={toggleEndPickerDrawer}
+          className='main-page-filter-drawer'
+        >
+          <MobileDatePicker dateType='end' />
         </Drawer>
       </Drawer>
     </Flex>
