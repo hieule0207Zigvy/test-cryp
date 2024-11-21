@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useContext, useEffect, useState } from 'react'
 import './information.scss'
 import { Tabs, TabsProps, Tooltip } from 'antd'
 import { CurrencyType, CurrencyTypeName, ProfitContent, ProfitLabel } from '@/enums/currency-type.enums'
@@ -6,10 +6,32 @@ import { useSearchParams } from 'react-router-dom'
 import { SearchParams } from '@/enums/param.enums'
 import { mockDataInformation } from '@/assets/mock.data'
 import { formatCurrency } from '@/utils'
+import { MockDataContext } from '@/contexts'
+import { isEmpty } from 'lodash'
+import { MockingDataFromForm } from '@/types/general.type'
 
 const InformationTab: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { mockData: testMockData } = useContext(MockDataContext)
+  const [receivedData, setReceivedData] = useState<MockingDataFromForm>()
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Check the origin for security purposes if necessary
+      if (event.origin === window.location.origin) {
+        const { data } = event.data
+        if (data) {
+          setReceivedData(data)
+        }
+      }
+    }
 
+    window.addEventListener('message', handleMessage)
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener('message', handleMessage)
+    }
+  }, [])
   const items: TabsProps['items'] = Object.keys(CurrencyTypeName).map((currency: string) => {
     return {
       key: currency,
@@ -18,7 +40,18 @@ const InformationTab: React.FC = () => {
   })
   const currencyType = searchParams.get(SearchParams.currency) ?? CurrencyType.Coin_M_Futures
 
-  const profitData = mockDataInformation[currencyType] || {}
+  const profitData = !isEmpty(receivedData)
+    ? {
+        total: receivedData.totalSubstance,
+        profitByToday: receivedData.profitToday,
+        profitByWeek: receivedData.profitByWeek,
+        profitBytMonth: receivedData.profitByMonth
+      }
+    : mockDataInformation[currencyType] || {}
+
+  useEffect(() => {
+    console.log('TCL - file: index.tsx:36 - mockData:', testMockData)
+  }, [testMockData])
 
   return (
     <div className='information-session'>

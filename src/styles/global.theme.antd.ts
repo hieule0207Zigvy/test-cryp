@@ -41,7 +41,8 @@ export const globalTheme: ThemeConfig = {
       colorBgContainer: themeColors.background,
       hoverBorderColor: themeColors.border,
       colorBorder: themeColors.border,
-      borderRadius: 9999,
+      // borderRadius: 9999,
+      borderRadius: 20,
 
       controlHeight: 40,
       controlHeightLG: 48,

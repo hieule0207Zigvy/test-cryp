@@ -15,6 +15,7 @@ import {
   TimePickerProps
 } from 'antd'
 import { CheckboxGroupProps } from 'antd/es/checkbox'
+import TextArea, { TextAreaProps } from 'antd/es/input/TextArea'
 import { DefaultOptionType } from 'antd/es/select'
 import { ComponentType, FocusEvent, Ref, memo, useCallback, useMemo } from 'react'
 import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form'
@@ -30,6 +31,7 @@ type InputType =
   | 'radioGroup'
   | 'checkboxGroup'
   | 'number'
+  | 'textArea'
 
 const components: Record<InputType, ComponentType<any>> = {
   input: Input,
@@ -39,7 +41,8 @@ const components: Record<InputType, ComponentType<any>> = {
   checkbox: Checkbox,
   checkboxGroup: Checkbox.Group,
   radioGroup: Radio.Group,
-  number: Input
+  number: Input,
+  textArea: TextArea
 }
 
 type InputTypePropsMap = {
@@ -51,6 +54,7 @@ type InputTypePropsMap = {
   checkboxGroup: CheckboxGroupProps
   radioGroup: RadioGroupProps
   number: InputProps
+  textArea: TextAreaProps
 }
 
 type RefType = {
@@ -105,7 +109,7 @@ const ControlledInput = <FV extends FieldValues>(props: ControlledInputProps<FV>
 
   const handleBlur = useCallback(
     (arg0: FocusEvent<HTMLElement, Element> & FocusEvent<HTMLInputElement, Element>, info: any) => {
-      if (inputType !== 'checkboxGroup') {
+      if (inputType !== 'checkboxGroup' && inputType !== 'textArea') {
         inputProps?.onBlur?.(arg0, info)
       }
       field.onBlur()
