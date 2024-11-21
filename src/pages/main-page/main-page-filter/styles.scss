@@ -79,6 +79,25 @@
   height: 100%;
   overflow: hidden;
 
+  position: relative;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    height: 4.7rem;
+    opacity: 0.01;
+    border-radius: 0.4rem;
+
+    transform: translateY(-50%);
+
+    top: 50%;
+    left: 0;
+    right: 0;
+
+    background-color: white;
+  }
+
   .grid-item {
     overflow: hidden;
   }

@@ -123,6 +123,7 @@ const MainPageFilter = () => {
 
       {sm && (
         <DatePicker.RangePicker
+          size='large'
           separator='-'
           allowClear={false}
           open={openRangePicker}
@@ -138,9 +139,11 @@ const MainPageFilter = () => {
         />
       )}
 
-      <Button shape='round' onClick={toggleDrawer}>
-        Tùy chỉnh
-      </Button>
+      {!sm && (
+        <Button shape='round' onClick={toggleDrawer}>
+          Tùy chỉnh
+        </Button>
+      )}
 
       <Drawer
         title='Lọc'
