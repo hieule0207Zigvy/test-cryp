@@ -2,7 +2,6 @@
 
 .config-page-wrapper {
   background-color: white;
-  height: 100vh;
   color: black;
   padding: 32px;
 
@@ -12,24 +11,48 @@
     display: flex;
     flex-direction: row;
 
-    .left-side{
-        flex: 2;
-    }
+    .left-side {
+      flex: 2;
+      padding: 32px;
 
-    .right-side{
-        flex: 1;
+      .form-input {
         display: flex;
         flex-direction: column;
-        .preview-label{
-            font-size: 24px;
-            font-family: $font-sans;
-            color: $primary-bg-color;
+        justify-content: center;
+        // align-items: center;
+
+        .text-input {
+          width: 50%;
         }
-        .iframe-item{
-            width: 430px;
-            height: 932px;
-            margin-top: 8px;
+
+        .area-input {
+          width: 80%;
         }
+
+        .submit-button {
+          background-color: $primary-bg-color;
+          width: 10%;
+        }
+      }
+    }
+
+    .right-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      right: 20px;
+
+      .preview-label {
+        font-size: 24px;
+        font-family: $font-sans;
+        color: $primary-bg-color;
+      }
+      .iframe-item {
+        width: 430px;
+        height: 932px;
+        margin-top: 8px;
+      }
     }
   }
 }
