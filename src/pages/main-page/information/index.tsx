@@ -1,14 +1,14 @@
-import { memo, useContext, useEffect, useState } from 'react'
-import './information.scss'
-import { Tabs, TabsProps, Tooltip } from 'antd'
-import { CurrencyType, CurrencyTypeName, ProfitContent, ProfitLabel } from '@/enums/currency-type.enums'
-import { useSearchParams } from 'react-router-dom'
-import { SearchParams } from '@/enums/param.enums'
 import { mockDataInformation } from '@/assets/mock.data'
-import { formatCurrency } from '@/utils'
 import { MockDataContext } from '@/contexts'
-import { isEmpty } from 'lodash'
+import { CurrencyType, CurrencyTypeName, ProfitContent, ProfitLabel } from '@/enums/currency-type.enums'
+import { SearchParams } from '@/enums/param.enums'
 import { MockingDataFromForm } from '@/types/general.type'
+import { formatCurrency } from '@/utils'
+import { Tabs, TabsProps, Tooltip } from 'antd'
+import { isEmpty } from 'lodash-es'
+import { memo, useContext, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import './information.scss'
 
 const InformationTab: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
