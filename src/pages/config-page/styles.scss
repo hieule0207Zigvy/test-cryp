@@ -21,8 +21,12 @@
         justify-content: center;
         // align-items: center;
 
+        .input-row{
+          display: flex;
+          flex-direction: row;
+        }
         .text-input {
-          width: 50%;
+          width: 80%;
         }
 
         .area-input {
@@ -36,23 +40,155 @@
       }
     }
 
-    .right-side {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      right: 20px;
+    // .right-side {
+    //   // flex: 1;
+    //   // display: flex;
+    //   // flex-direction: column;
+    //   // position: fixed;
+    //   // right: 20px;
+    //   width: 430px;
+    //   /* iPhone 14 Pro Max width */
+    //   height: 932px;
+    //   /* iPhone 14 Pro Max height */
+    //   border-radius: 50px;
+    //   /* Rounded corners like the phone screen */
+    //   border: 16px solid #333;
+    //   /* Simulate phone frame */
+    //   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    //   /* Simulate a shadow around the phone */
+    //   position: relative;
+    //   background-color: #fff;
+    //   /* White background for the phone's outer shell */
+    //   overflow: hidden;
 
-      .preview-label {
-        font-size: 24px;
-        font-family: $font-sans;
-        color: $primary-bg-color;
-      }
-      .iframe-item {
-        width: 430px;
-        height: 932px;
-        margin-top: 8px;
-      }
+
+    //   // .preview-label {
+    //   //   font-size: 24px;
+    //   //   font-family: $font-sans;
+    //   //   color: $primary-bg-color;
+    //   // }
+    //   .iframe-item {
+    //     // width: 430px;
+    //     // height: 932px;
+    //     // margin-top: 8px;
+    //     width: 100%;
+    //     height: 100%;
+    //     border: none;
+    //     border-radius: 0;
+    //   }
+    // }
+
+
+    .iphone-screen {
+      width: 430px;
+      /* iPhone 15 Pro Max width */
+      height: 932px;
+      /* iPhone 15 Pro Max height */
+      // border-radius: 40px;
+      background-color: $primary-bg-color;
+      overflow: hidden;
+      position: relative;
+      // box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      // border: 2px solid #333;
     }
+
+    /* Status Bar */
+    .status-bar {
+      height: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+      margin-top: 15px;
+    }
+
+    .status-bar .time {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-top: 3px;
+      margin-left: 25px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .status-bar .icons {
+      display: flex;
+      // margin-top: 6px;
+      gap: 10px; // width: 22px;
+      margin-right: 21px;
+      // gap: 10px;
+    }
+
+    // .icons span {
+    //   width: 22px;
+    // }
+    .img-wrapper {
+      width: 18px;
+      margin-top: 5px;
+    }
+
+    .img-wrapper-battery {
+      width: 28px;
+      margin-top: 5px;
+    }
+
+    .img-wrapper span {
+      width: 100%;
+    }
+
+    .image-icon-cellular {
+      width: 100%;
+    }
+
+    .image-icon-wifi {
+      width: 87%;
+    }
+
+    .image-icon-battery {
+      width: 100%;
+      position: relative;
+      margin-left: -5px;
+    }
+
+    /* Content */
+    .content {
+      position: absolute;
+      top: 30px;
+      /* below status bar */
+      bottom: 30px;
+      /* above home bar */
+      width: 100%;
+      overflow: hidden;
+      height: 88%;
+      margin-top: 25px;
+    }
+
+    .content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Home Bar */
+    .home-bar {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 5px;
+      background-color: white;
+      border-radius: 10px;
+      opacity: 0.8;
+    }
+
   }
 }

@@ -12,7 +12,6 @@ import './information.scss'
 
 const InformationTab: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const { mockData: testMockData } = useContext(MockDataContext)
   const [receivedData, setReceivedData] = useState<MockingDataFromForm>()
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -48,11 +47,6 @@ const InformationTab: React.FC = () => {
         profitBytMonth: receivedData.profitByMonth
       }
     : mockDataInformation[currencyType] || {}
-
-  useEffect(() => {
-    console.log('TCL - file: index.tsx:36 - mockData:', testMockData)
-  }, [testMockData])
-
   return (
     <div className='information-session'>
       <div className='currency-list-session'>
