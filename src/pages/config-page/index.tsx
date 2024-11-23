@@ -108,7 +108,6 @@ const ConfigPage: React.FC = () => {
                 inputType='textArea'
                 label='Lời/Lỗ 30 ngày - chart'
               /> */}
-              <span>{`Sample Data:[ { "value" : 16, "time":"2024-09-12"},{ "value" : -17, "time":"2024-09-13", "color": "red"} ] `}</span>
               <h1>Lời/Lỗ ngày</h1>
               <ControlledInput
                 className='text-input'
@@ -125,7 +124,6 @@ const ConfigPage: React.FC = () => {
                 inputType='textArea'
                 label='Lời/Lỗ 30 ngày - chart'
               /> */}
-              <span>{`Sample Data:[ { "value" : 16, "time":"2024-09-12"},{ "value" : -17, "time":"2024-09-13", "color": "red"} ] `}</span>
               <h1>Xu hướng tài sản</h1>
               <ControlledInput
                 className='text-input'
@@ -142,7 +140,6 @@ const ConfigPage: React.FC = () => {
                 inputType='textArea'
                 label='Lời/Lỗ 30 ngày - chart'
               /> */}
-              <span>{`Sample Data:[ { "value" : 16, "time":"2024-09-12"},{ "value" : -17, "time":"2024-09-13", "color": "red"} ] `}</span>
               <Button className='submit-button' htmlType='submit'>
                 Submit
               </Button>
