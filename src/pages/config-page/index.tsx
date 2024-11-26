@@ -1,19 +1,15 @@
-import { memo, useContext, useEffect, useRef } from 'react'
+import { memo, useContext, useRef } from 'react'
 import './styles.scss'
-import { Button, ConfigProvider, Form, Input, theme } from 'antd'
+import { Button, ConfigProvider, Form, theme } from 'antd'
 import { useForm } from 'react-hook-form'
 import ControlledInput from '@/components/controlled-input'
-import { MockDataContext, MockDataProvider } from '@/contexts'
-import { formatDateMockData, generateChartData, toJsonMockData } from '@/utils'
-import MainPage from '../main-page'
-import { globalTheme } from '@/styles/global.theme.antd'
-import { MockingDataFromForm, MockingValue } from '@/types/general.type'
+import { MockDataContext } from '@/contexts'
+import { generateChartData } from '@/utils'
 
 const ConfigPage: React.FC = () => {
-  const initValues = {}
   const { handleSubmit, control } = useForm({}) // initvalues
 
-  const { mockData, setMockData, isAlreadySetDataToContext } = useContext(MockDataContext)
+  const { setMockData } = useContext(MockDataContext)
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
 

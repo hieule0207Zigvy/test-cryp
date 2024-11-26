@@ -1,12 +1,11 @@
 import { mockDataInformation } from '@/assets/mock.data'
-import { MockDataContext } from '@/contexts'
 import { CurrencyType, CurrencyTypeName, ProfitContent, ProfitLabel } from '@/enums/currency-type.enums'
 import { SearchParams } from '@/enums/param.enums'
 import { MockingDataFromForm } from '@/types/general.type'
 import { formatCurrency } from '@/utils'
 import { Tabs, TabsProps, Tooltip } from 'antd'
 import { isEmpty } from 'lodash-es'
-import { memo, useContext, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import './information.scss'
 

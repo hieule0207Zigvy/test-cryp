@@ -1,7 +1,6 @@
 import { lazy, memo, ReactNode, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-const Dashboard = lazy(() => import('@/pages/dashboard'))
 const Sub = lazy(() => import('@/pages/sub'))
 const MainPage = lazy(() => import('@/pages/main-page'))
 const Config = lazy(() => import('@/pages/config-page'))

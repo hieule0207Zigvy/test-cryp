@@ -2,7 +2,6 @@ import { ConfigProvider } from 'antd'
 import { memo } from 'react'
 import AppRouter from './router/AppRouter'
 import { globalTheme } from './styles/global.theme.antd'
-import MainPage from './pages/main-page'
 import { MockDataProvider } from './contexts'
 
 function App() {

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from 'react'
+import { createContext, useState } from 'react'
 import { isEmpty } from 'lodash-es'
 
 export const MockDataContext = createContext<any>(null)
